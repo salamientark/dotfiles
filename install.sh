@@ -9,7 +9,7 @@ cp ./i3/config ~/.config/i3/config
 
 #    ZSH
 # Installing Oh My Zsh
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+exit | sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 cp ./zsh/.zshrc ~/.
 
 # Installing fonts (For powerlevel10k)
