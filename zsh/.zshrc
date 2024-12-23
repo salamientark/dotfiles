@@ -155,3 +155,4 @@ export PATH="$PATH:/home/deploy/nodejs/bin"
 # Run CMD at zsh startup
 CMD="setxkbmap us"
 eval "$CMD"
+
