@@ -3,6 +3,7 @@
 # Update and install necessary program
 sudo apt update -y && sudo apt upgrade -y
 yes | sudo apt install -y curl wget git zsh vim tree i3 clang gcc lldb xsel bat
+curl -fsS https://dl.brave.com/install.sh | sh
 
 ###    i3 Configuration    ###
 cp ./i3/config ~/.config/i3/config
