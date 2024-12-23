@@ -2,7 +2,7 @@
 
 # Update and install necessary program
 sudo apt update -y && sudo apt upgrade -y
-yes | sudo apt install -y curl wget git zsh vim tree i3 clang gcc lldb
+yes | sudo apt install -y curl wget git zsh vim tree i3 clang gcc lldb xsel bat
 
 ###    i3 Configuration    ###
 cp ./i3/config ~/.config/i3/config
@@ -56,6 +56,7 @@ curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.g
 
 # Install npm for github copilot
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+source ~/.zshrc
 nvm install 22
 
 # Clone config 
