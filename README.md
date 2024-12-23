@@ -7,4 +7,6 @@ I'm actually using Ubuntu with :
 
 ## Install
 Just run :
-    ```git clone git@github.com:salamientark/Full-config.git && cd Full-config && sudo -u $(whoami) ./install.sh```
+    ```
+    git clone git@github.com:salamientark/Full-config.git && cd Full-config && sudo -u $(whoami) ./install.sh
+    ```
