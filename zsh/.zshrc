@@ -118,11 +118,11 @@ source $ZSH/oh-my-zsh.sh
 # === CUSTOM ALIASES ===
 # ======================
 
-# alias lsd
-alias l="lsd"
-alias la="lsd -a"
-alias ll="lsd -l"
-alias lla="lsd -la"
+# alias eza
+alias l="eza"
+alias la="eza -a"
+alias ll="eza -l"
+alias lla="eza -la"
 
 # Alias
 alias bat="batcat"
@@ -156,3 +156,8 @@ export PATH="$PATH:/home/deploy/nodejs/bin"
 CMD="setxkbmap us"
 eval "$CMD"
 
+export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin:/opt/nvim-linux64/bin
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
