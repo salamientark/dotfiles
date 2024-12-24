@@ -1,5 +1,4 @@
 # $HOME/.config/alacritty/alacritty.toml
-# by Rito Ghosh 2023-10-06
 
 # Alacritty now uses TOML formatting for its config files.
 # This is a simple example.
@@ -18,17 +17,12 @@
 # I put the file alacritty.toml in $HOME/.config/alacritty. However it can be kept anywhere among the places mentioned in
 # https://github.com/alacritty/alacritty/tree/master#configuration
 
+# ColorTheme: Tokyo Night Storm
 import = [ "/home/madlab/.config/alacritty/themes/tokyo-night-storm.toml" ]
 
 [window]
 
 opacity = 0.9
-
-# padding.x = 10
-# padding.y = 10
-
-# decorations = "Full"
-# decorations_theme_variant = "Light" # "Dark"
 
 [font]
 
