@@ -6,10 +6,7 @@ I'm actually using Ubuntu with :
 - neovim as code editor
 
 ## Install
-Run :
-```
-git clone git@github.com:salamientark/Full-config.git && cd Full-config && sudo -u $(whoami) ./install.sh
-```
+
 ## Configuration
 ### NVIM
 On launch do
