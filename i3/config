@@ -253,6 +253,9 @@ for_window [class="Brave-browser"] move  to workspace $ws3
 # Transparency with picom composer
 exec_always picom --config ~/.config/picom/picom.conf
 
+#Rescale windows
+exec_always xrandr --output HDMI-0 --scale 2x2
+
 # Color Schem for windows
 # set $bgcolor    #2F5979
 set $bgcolor    #587E9B99
