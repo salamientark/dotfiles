@@ -249,6 +249,7 @@ exec_always feh --bg-fill ~/.config/i3/wallpapers/ink_wave.png
 
 # Allocate application to workspace
 for_window [class="Brave-browser"] move  to workspace $ws3
+for_window [class="VirtualBox Manager"] move  to workspace $ws4
 
 # Transparency with picom composer
 exec_always picom --config ~/.config/picom/picom.conf
