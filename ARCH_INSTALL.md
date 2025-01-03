@@ -176,7 +176,9 @@ makepkg -si
 Lazy style
 
 ###### Clone the dotfile repo
+Be sure that you are logged as your new user
 ``` shell
+cd ~
 git clone https://github.com/salamientark/dotfiles.git
 cd dotfiles
 ./arch_install.sh

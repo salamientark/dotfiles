@@ -18,7 +18,7 @@
 # I put the file alacritty.toml in $HOME/.config/alacritty. However it can be kept anywhere among the places mentioned in
 # https://github.com/alacritty/alacritty/tree/master#configuration
 
-import = [ "/home/madlab/.config/alacritty/themes/tokyo-night-storm.toml" ]
+general.import = [ "/home/madlab/.config/alacritty/themes/tokyo-night-storm.toml" ]
 
 [window]
 
