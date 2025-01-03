@@ -70,3 +70,6 @@ rm nvim-linux64.tar.gz
 ###    Reload i3    ###
 i3-msg reload
 i3-msg restart
+
+
+# Arch Install (VM)
