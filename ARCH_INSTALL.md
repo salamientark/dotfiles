@@ -26,10 +26,7 @@ And setup values as follow
 | Rule1 |      tcp | 127.0.0.1 |      2222 | 10.0.2.15 |         22 |
 
 ```
-Validate settings and restart the VM 
-``` shell
-shutdown now
-```
+Validate settings
 
 #### Connect throught ssh
 
