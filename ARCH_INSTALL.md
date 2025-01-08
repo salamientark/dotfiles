@@ -6,6 +6,60 @@ Check if you have internet access
 ping google.com
 ```
 
+#### Virtual Box port forwarding
+
+##### Guest Machine
+
+Check what is the guest ip
+``` shell
+ip addr # Look for the inet addr
+        # We will enabe port forwarding to this io
+```
+
+##### VirtualBox settings
+In virtual-box, setup port forwarding by going in
+General > Networg > Port Forwarding 
+And setup values as follow
+```
+| Rule  | Protocol |  Host IP  | Host Port |  Guest IP | Guest Port |
+ -------------------------------------------------------------------
+| Rule1 |      tcp | 127.0.0.1 |      2222 | 10.0.2.15 |         22 |
+
+```
+Validate settings and restart the VM 
+``` shell
+shutdown now
+```
+
+#### Connect throught ssh
+
+##### Guest machine config
+
+In the VM shell change the permit root login to yes
+``` shell
+sed -i 's/^#\(PermitRootLogin/).*/\1 yes/' /etc/ssh/sshd_config
+```
+
+Reload sshd agent
+``` shell
+systemctl reload sshd
+```
+
+Set a root password
+``` shell
+passwd
+(your password here)
+(your password here)
+```
+
+##### Host machine conection
+Open a terminal and connect throught ssh
+``` shell
+ssh root@127.0.0.1 -p 2222
+```
+
+### Installation
+
 Partition Disk
 ``` shell
 fdisk -l # To list disk and partition
@@ -31,7 +85,7 @@ mount /dev/sda1 /mnt
 
 Install base package
 ``` shell
-pacstrap /mnt base linux base-devel grub man man-db texinfo openssh dhcpcd ufw neovim zsh git
+pacstrap /mnt base linux base-devel
 ```
 
 Generate fstab file
@@ -46,7 +100,12 @@ Log into the new system
 arch-chroot /mnt
 ```
 
-Localization
+Install package
+``` shell
+pacman -S  grub man man-db texinfo openssh dhcpcd ufw neovim zsh git sudo
+```
+
+##### Localization
 ``` shell
 sed -i '/en_US.UTF-8/s/^.//' /etc/locale.gen
 locale-gen
@@ -62,32 +121,16 @@ LC_ALL=C' >> /etc/locale.conf
 echo 'KEYMAP=us' >> /etc/vconsole.conf
 ```
 
-Timezone
+##### Timezone
 ``` shell
 ln -sf /usr/share/zoneinfo/Europe/Paris /etc/localtime
 hwclock --systohc
 ```
 
-##### Metwork and ssh configuration
+#### Network and ssh configuration
 
-###### Virtual Box port forwarding
-Check what is the guest ip
-``` shell
-ip addr # Look for the inet addr
-        # We will enabe port forwarding to this io
-```
 
-In virtual-box, setup port forwarding by going in
-General > Networg > Port Forwarding 
-And setup values as follow
-```
-| Rule  | Protocol |  Host IP  | Host Port |  Guest IP | Guest Port |
- -------------------------------------------------------------------
-| Rule1 |      tcp | 127.0.0.1 |      2222 | 10.0.2.15 |         22 |
-
-```
-
-###### Start services
+##### Start services
 ``` shell
 systemctl enable sshd
 systemctl enable dhcpcp
@@ -95,12 +138,12 @@ systemctl enable ufw
 ufw enable
 ```
 
-###### Configure firewall
+##### Configure firewall
 ``` shell
 ufw allow 22/tcp
 ```
 
-###### Set Host
+##### Set Host
 Set machine hostname
 ``` shell
 echo "archVM" > /etc/hostname
@@ -110,35 +153,35 @@ Set hosts
 ``` sell
 echo '127.0.0.1    localhost.localdomain   localhost
 ::1          localhost.localdomain   localhost
-127.0.0.1    thinkpad.localdomain    archVM' >> /etc/hosts
+127.0.0.1    archVM.localdomain      archVM' >> /etc/hosts
 ```
 
-###### Update Root passwd
+##### Update Root passwd
 ``` shell
 passwd
 (your password here)
 (your password here)
 ```
 
-##### Install Bootloader
+#### Install Bootloader
 ``` shell
 grub-install --target=i386-pc /dev/sda
 grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
-##### Reboot the machine
+#### Reboot the machine
 ``` shell
 exit
 umount -R /mnt
 reboot
 ```
 
-#### Post install setup
+### Post install setup
 When rebooting the machine, select 'Boot existing OS'
 
 Then login as 'root'
 
-##### Create new user
+#### Create new user
 ``` shell
 useradd -m -g users -G wheel -s /usr/bin/zsh john
 ```
@@ -163,7 +206,7 @@ Log into the new user
 su john
 ```
 
-##### Install AUR package manager
+#### Install AUR package manager
 ``` shell
 mkdir Sources
 cd Sources
@@ -172,10 +215,10 @@ cd yay
 makepkg -si
 ```
 
-##### Final config
+#### Final config
 Lazy style
 
-###### Clone the dotfile repo
+##### Clone the dotfile repo
 Be sure that you are logged as your new user
 ``` shell
 cd ~
