@@ -34,7 +34,7 @@ Validate settings
 
 In the VM shell change the permit root login to yes
 ``` shell
-sed -i 's/^#\(PermitRootLogin/).*/\1 yes/' /etc/ssh/sshd_config
+sed -i 's/^#\(PermitRootLogin\).*/\1 yes/' /etc/ssh/sshd_config
 ```
 
 Reload sshd agent
