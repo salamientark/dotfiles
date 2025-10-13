@@ -125,10 +125,16 @@ alias ll="eza -l"
 alias lla="eza -la"
 
 # Alias
-alias bat="batcat"
 alias off="shutdown now"
 alias up="sudo apt update -y && sudo apt upgrade -y"
 alias dl="sudo apt install"
+
+# Python aliases
+alias norminette='flake8'
+alias pip='/home/madlab/.env/.venv/bin/pip'
+alias python='/home/madlab/.env/.venv/bin/python'
+alias python3='/home/madlab/.env/.venv/bin/python3'
+alias pysource='source ~/.env/.venv/bin/activate'
 
 # C Compilation aliases 
 alias ccw='cc -Wall -Wextra -Werror'
@@ -137,17 +143,6 @@ alias clangw='clang -Wall -Wextra -Werror'
 
 # C++ Compilation aliases 
 alias c++w='c++ -Wall -Wextra -Werror -std=c++98'
-# minishell valgrind aliases
-alias minival='valgrind --leak-check=full --show-leak-kinds=all --trace-children=yes --track-fds=yes --suppressions=/home/madlab/CODE/PROJECT/42/git_minishell/ignore_readline.supp -s'
-
-# ADDING FUNCHECK PATH TO $PATH
-export PATH=/home/madlab/.local/funcheck/host:$PATH
-
-# ADDING NVIM PATH TO $PATH
-export PATH="$PATH:/opt/nvim-linux64/bin"
-
-# ADDING NODE JS TO PATH
-export PATH="$PATH:/home/deploy/nodejs/bin"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
@@ -156,8 +151,13 @@ export PATH="$PATH:/home/deploy/nodejs/bin"
 CMD="setxkbmap us"
 eval "$CMD"
 
-export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin:/opt/nvim-linux64/bin
+# Default PATH
+export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin
+# ADDING NeoVim to $PATH
+export PATH="$PATH:/opt/nvim-linux64/bin"
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+set -o vi

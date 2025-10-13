@@ -2,7 +2,7 @@
 
 # Update and install necessary program
 sudo pacman -Sy curl wget git vim tree clang gcc lldb xsel bat eza firefox \
-	xorg xorg-xinit i3 dmenu alacritty picom feh
+	xorg xorg-xinit i3 dmenu picom feh
 
 ###    i3 Configuration    ###
 echo "Copying i3 configuration"
@@ -11,8 +11,8 @@ echo "Copying i3blocks configuration"
 cp -r ./i3blocks/ ~/.config/.
 echo "Copying picom configuration"
 cp -r ./picom/ ~/.config/.
-echo "Copying alacritty configuration"
-cp -r ./alacritty/ ~/.config/.
+# echo "Copying alacritty configuration"
+# cp -r ./alacritty/ ~/.config/.
 
 # Installing fonts (For powerlevel10k)
 echo "Installing fonts"

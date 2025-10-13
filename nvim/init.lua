@@ -19,6 +19,9 @@ Plug ('zbirenbaum/copilot.lua') -- Copilot lua
 Plug ('zbirenbaum/copilot-cmp') -- Copilot-cmp
 Plug ('CopilotC-Nvim/CopilotChat.nvim', { ['branch']= 'main' }) -- Copilot chat
 
+-- OPENCODE
+Plug ('NickvanDyke/opencode.nvim')
+
 -- COLOR SCHEME 
 Plug ('navarasu/onedark.nvim') -- OneDark
 
