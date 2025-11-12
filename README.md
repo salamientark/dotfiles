@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Nvim config
 My nvim config
 
@@ -28,3 +29,22 @@ Setup copilot
 :Copilot setup
 ```
 
+=======
+# Personnal Dotfiles
+
+## Config Linux (Ubuntu)
+- font
+- picom
+- i3
+- i3blocks
+- zsh
+- alacritty
+- p10k
+- nvim
+
+## CAUTION !
+You might need to change :
+~/.Xresources                       to set dpi
+~/.config/i3/config                 to set xrandr scale
+~/.config/i3blocks/i3blocks.conf    to reset time to middle
+>>>>>>> 03fca0a9a86670213eeab3376d721125be7efdd3
