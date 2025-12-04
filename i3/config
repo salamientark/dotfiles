@@ -17,7 +17,6 @@ set $I3_SCRIPTS_DIR ~/.config/i3/scripts
 set $I3BLOCKS_CONFIG_DIR ~/.config/i3blocks
 
 # This sets the mod key to the Windows key. Other popular choices are Mod1 (Alt)
-# Set super key as Win key
 set $mod Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
@@ -122,7 +121,6 @@ bindcode $mod+32 focus parent
 # focus the child container
 bindcode $mod+33 focus child
 # bindsym $mod+d focus child
-
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
 # set $ws1 "1: Neovim"
@@ -173,9 +171,6 @@ bindsym $mod+Shift+c reload
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
 bindsym $mod+Shift+x exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
-
-# Lock session
-# bindsym $mod+Shift+e exec /home/$USER/.config/i3/scripts/lock.sh
 
 # resize window (you can also use the mouse for that)
 mode "resize" {

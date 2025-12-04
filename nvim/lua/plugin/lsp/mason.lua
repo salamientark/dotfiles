@@ -27,11 +27,7 @@ require("mason-lspconfig").setup({
 	automatic_installation = true,
 })
 
-local lspconfig_status_ok, lspconfig = pcall(require, "lspconfig")
-if not lspconfig_status_ok then
-	return
-end
-
+-- Use the new vim.lsp.config API (Neovim 0.11+)
 local opts = {}
 
 for _, server in pairs(servers) do
@@ -47,5 +43,16 @@ for _, server in pairs(servers) do
 		opts = vim.tbl_deep_extend("force", conf_opts, opts)
 	end
 
-	lspconfig[server].setup(opts)
+	-- Configure the LSP server using the new API
+	vim.lsp.config[server] = {
+		cmd = opts.cmd,
+		filetypes = opts.filetypes,
+		root_markers = opts.root_dir and { opts.root_dir } or { '.git' },
+		settings = opts.settings,
+		on_attach = opts.on_attach,
+		capabilities = opts.capabilities,
+	}
+
+	-- Enable the LSP server
+	vim.lsp.enable(server)
 end

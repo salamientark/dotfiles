@@ -82,3 +82,12 @@ keymap("n", "<C-T>", ":tabprevious<CR>", opts);
 -- UFO
 keymap('n', 'zR', "<cmd> lua require('ufo').openAllFolds()<CR>", opts);
 keymap('n', 'zM', "<cmd> lua require('ufo').closeAllFolds()<CR>", opts);
+
+-- OPENCODE
+vim.keymap.set({ "n", "x", "v" }, "<leader>oa", function() require("opencode").ask("@this: ", { submit = true }) end, { desc = "Ask opencode" })
+vim.keymap.set({ "n", "x", "v" }, "<leader>x", function() require("opencode").select() end,                          { desc = "Execute opencode action…" })
+vim.keymap.set({ "n", "x", "v" }, "<leader>o+", function() require("opencode").prompt("@this") end,                   { desc = "Add to opencode" })
+vim.keymap.set({ "n", "t" }, "<leader>o.", function() require("opencode").toggle() end,                          { desc = "Toggle opencode" })
+-- You may want these if you stick with the opinionated "<C-a>" and "<C-x>" above — otherwise consider "<leader>o".
+vim.keymap.set('n', '+', '<C-a>', { desc = 'Increment', noremap = true })
+vim.keymap.set('n', '-', '<C-x>', { desc = 'Decrement', noremap = true })

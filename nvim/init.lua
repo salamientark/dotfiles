@@ -20,6 +20,7 @@ Plug ('zbirenbaum/copilot-cmp') -- Copilot-cmp
 Plug ('CopilotC-Nvim/CopilotChat.nvim', { ['branch']= 'main' }) -- Copilot chat
 
 -- OPENCODE
+Plug ('folke/snacks.nvim')
 Plug ('NickvanDyke/opencode.nvim')
 
 -- COLOR SCHEME 
