@@ -131,11 +131,11 @@ alias dl="sudo apt install"
 
 # Python aliases
 alias norminette='flake8'
-alias pip='/home/madlab/.env/.venv/bin/pip'
-alias python='/home/madlab/.env/.venv/bin/python'
-alias python3='/home/madlab/.env/.venv/bin/python3'
-alias pysource='source ~/.env/.venv/bin/activate'
-
+# alias pip='/home/madlab/.env/.venv/bin/pip'
+# alias python='/home/madlab/.env/.venv/bin/python'
+# alias python3='/home/madlab/.env/.venv/bin/python3'
+# alias pysource='source ~/.env/.venv/bin/activate'
+#
 # C Compilation aliases 
 alias ccw='cc -Wall -Wextra -Werror'
 alias gccw='gcc -Wall -Wextra -Werror'
@@ -156,8 +156,79 @@ export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/b
 # ADDING NeoVim to $PATH
 export PATH="$PATH:/opt/nvim-linux64/bin"
 
+# NVM (Node Version Manager) setup
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
+# Open code configuration
+export OPENCODE_INSTALL_DIR=$HOME/Tools/OpenCode
+
+# Set terminal to vi mode
+# default:
+#  set -o emacs
 set -o vi
+
+# opencode
+# export PATH=/home/madlab/Tools/OpenCode/bin:$PATH
+
+# opencode
+export PATH=/home/madlab/.opencode/bin:$PATH
+export EDITOR=nvim
+
+. "$HOME/.local/bin/env"
+
+
+# pnpm
+export PNPM_HOME="/home/madlab/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
+
+
+# JINA_CLI_BEGIN
+
+## autocomplete
+if [[ ! -o interactive ]]; then
+    return
+fi
+
+compctl -K _jina jina
+
+_jina() {
+  local words completions
+  read -cA words
+
+  if [ "${#words}" -eq 2 ]; then
+    completions="$(jina commands)"
+  else
+    completions="$(jina completions ${words[2,-2]})"
+  fi
+
+  reply=(${(ps:
+:)completions})
+}
+
+# session-wise fix
+ulimit -n 4096
+export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
+
+# JINA_CLI_END
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
