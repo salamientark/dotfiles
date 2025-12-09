@@ -233,6 +233,9 @@ main() {
     # picom compositor
     sync_directory "$HOME/.config/picom" "$DOTFILES_DIR/picom" "picom config" ""
     
+    # polybar status bar
+    sync_directory "$HOME/.config/polybar" "$DOTFILES_DIR/polybar" "polybar config" ""
+    
     # Zsh configuration
     sync_file "$HOME/.zshrc" "$DOTFILES_DIR/zsh/.zshrc" "zsh config"
     

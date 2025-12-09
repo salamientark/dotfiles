@@ -28,15 +28,15 @@ exec --no-startup-id nm-applet
 # Lock session (p key)
 bindcode $mod+Shift+33 exec --no-startup-id i3lock -i ~/.i3/glitch-art-hexagonal-pattern-illusion.png
 
-# Volume controls (F5-F8)
-bindcode $mod+71 exec --no-startup-id $I3_SCRIPTS_DIR/volume.sh mute
-bindcode $mod+72 exec --no-startup-id $I3_SCRIPTS_DIR/volume.sh down
-bindcode $mod+73 exec --no-startup-id $I3_SCRIPTS_DIR/volume.sh up
-bindcode $mod+74 exec --no-startup-id $I3_SCRIPTS_DIR/volume.sh mic-mute
+# Volume controls (F1-F4)
+bindcode $mod+67 exec --no-startup-id $I3_SCRIPTS_DIR/volume.sh mute
+bindcode $mod+68 exec --no-startup-id $I3_SCRIPTS_DIR/volume.sh down
+bindcode $mod+69 exec --no-startup-id $I3_SCRIPTS_DIR/volume.sh up
+bindcode $mod+70 exec --no-startup-id $I3_SCRIPTS_DIR/volume.sh mic-mute
 
-# Brightness controls (F9-F10)
-bindcode $mod+75 exec --no-startup-id $I3_SCRIPTS_DIR/brightness.sh down
-bindcode $mod+76 exec --no-startup-id $I3_SCRIPTS_DIR/brightness.sh up
+# Brightness controls (F5-F6)
+bindcode $mod+71 exec --no-startup-id $I3_SCRIPTS_DIR/brightness.sh down
+bindcode $mod+72 exec --no-startup-id $I3_SCRIPTS_DIR/brightness.sh up
 
 # Use Mouse+$mod to drag floating windows
 floating_modifier $mod
@@ -189,20 +189,21 @@ client.urgent           $u-bgcolor  $u-bgcolor  $text    $u-bgcolor
 
 ### BAR ###
 
-bar {
-	status_command i3blocks -c $I3BLOCKS_CONFIG_DIR/i3blocks.conf
-	font pango:MesloLGS NF 11
-	i3bar_command i3bar --transparency
-	tray_output none
-	
-	colors {
-		background         $bar-color
-		separator          #191919
-		focused_workspace  $bgcolor    $bgcolor    $text
-		inactive_workspace $in-bgcolor $in-bgcolor $text
-		urgent_workspace   $u-bgcolor  $u-bgcolor  $text
-	}
-}
+# i3bar disabled - using Polybar instead
+# bar {
+# 	status_command i3blocks -c $I3BLOCKS_CONFIG_DIR/i3blocks.conf
+# 	font pango:MesloLGS NF 11
+# 	i3bar_command i3bar --transparency
+# 	tray_output none
+# 	
+# 	colors {
+# 		background         $bar-color
+# 		separator          #191919
+# 		focused_workspace  $bgcolor    $bgcolor    $text
+# 		inactive_workspace $in-bgcolor $in-bgcolor $text
+# 		urgent_workspace   $u-bgcolor  $u-bgcolor  $text
+# 	}
+# }
 
 ### APPLICATION ASSIGNMENTS ###
 
@@ -213,6 +214,9 @@ assign [class="Brave-browser"] $ws3
 assign [class="VirtualBox Manager"] $ws4
 
 ### STARTUP APPLICATIONS ###
+
+# Polybar
+exec_always --no-startup-id ~/.config/polybar/launch.sh
 
 # Wallpaper
 exec_always feh --bg-fill ~/.config/i3/wallpapers/ink_wave.png
