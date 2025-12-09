@@ -215,6 +215,11 @@ assign [class="VirtualBox Manager"] $ws4
 
 ### STARTUP APPLICATIONS ###
 
+# Auto-launch applications on specific workspaces
+exec --no-startup-id i3-msg 'workspace 1; exec $TERMINAL'
+exec --no-startup-id i3-msg 'workspace 2; exec $TERMINAL; exec $TERMINAL'
+exec --no-startup-id i3-msg 'workspace 3; exec firefox'
+
 # Polybar
 exec_always --no-startup-id ~/.config/polybar/launch.sh
 
