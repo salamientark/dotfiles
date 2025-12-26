@@ -1,7 +1,7 @@
 ---
 description: Guide user into clean coding specialized code performance analysis
 mode: subagent
-model: github-copilot/claude-sonnet-4
+model: anthropic/claude-sonnet-4-0
 temperature: 0.1
 ---
 

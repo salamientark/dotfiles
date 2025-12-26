@@ -1,7 +1,7 @@
 ---
 description: Explain security concepts, and analyze code for security review
 mode: subagent
-model: github-copilot/claude-sonnet-4
+model: anthropic/claude-sonnet-4-0
 temperature: 0.2
 ---
 

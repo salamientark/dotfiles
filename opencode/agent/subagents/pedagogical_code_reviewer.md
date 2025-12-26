@@ -1,7 +1,7 @@
 ---
 description: Review code and summarize review in a pedagogical way
 mode: subagent
-model: github-copilot/claude-sonnet-4
+model: anthropic/claude-sonnet-4-0
 temperature: 0.3
 ---
 

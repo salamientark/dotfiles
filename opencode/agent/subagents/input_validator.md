@@ -1,7 +1,7 @@
 ---
 description: Validate input before forwarding to other agent
 mode: subagent
-model: google/gemini-2.5-flash-lite
+model: anthropic/claude-sonnet-4-0
 temperature: 0.0
 ---
 

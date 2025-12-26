@@ -1,7 +1,7 @@
 ---
 description: Guide user into planning the step for the project
 mode: subagent
-model: github-copilot/claude-sonnet-4
+model: anthropic/claude-sonnet-4-0
 temperature: 0.3
 ---
 

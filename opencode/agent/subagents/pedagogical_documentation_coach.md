@@ -1,7 +1,7 @@
 ---
 description: Guide user into clean coding specialized in documentation and commenting
 mode: subagent
-model: github-copilot/gpt-4o
+model: anthropic/claude-sonnet-4-0
 temperature: 0.3
 ---
 
