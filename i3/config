@@ -176,6 +176,17 @@ mode "resize" {
 # Enter resize mode (r key)
 bindcode $mod+27 mode "resize"
 
+### DICTATE MODE ###
+
+# Active only while transcribing; allows cancel with Delete/Escape.
+mode "dictate" {
+        # Cancel transcription (keycodes):
+        #  - 9  = Escape
+        #  - 22 = BackSpace (your "Delete" key)
+        bindcode 9 exec --no-startup-id $I3_SCRIPTS_DIR/dictate.sh cancel, mode "default"
+        bindcode 22 exec --no-startup-id $I3_SCRIPTS_DIR/dictate.sh cancel, mode "default"
+}
+
 ### COLOR SCHEME ###
 
 set $bgcolor    #587E9B99

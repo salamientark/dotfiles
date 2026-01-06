@@ -7,6 +7,11 @@ PID_FILE="/tmp/dictate.pid"
 FFMPEG_LOG="/tmp/dictate.ffmpeg.log"
 WINDOW_FILE="/tmp/dictate.window"
 NAGBAR_PID_FILE="/tmp/dictate.nagbar.pid"
+STOP_PID_FILE="/tmp/dictate.stop.pid"
+TRANSCRIBE_PID_FILE="/tmp/dictate.transcribe.pid"
+TRANSCRIBE_OUT_FILE="/tmp/dictate.transcribe.txt"
+
+DICTATE_MODE_NAME="dictate"
 
 STATUS_RECORD="(Recording...)"
 STATUS_TRANSCRIBE="(Transcribing...)"
@@ -22,7 +27,7 @@ MODEL="${DICTATE_MODEL:-ggml-small.bin}"
 MODEL_PATH="${DICTATE_MODEL_PATH:-${HOME}/TOOLS/whisper.cpp/models/${MODEL}}"
 
 usage() {
-	printf 'Usage: %s {start|stop}\n' "$0" >&2
+	printf 'Usage: %s {start|stop|cancel}\n' "$0" >&2
 }
 
 is_running() {
@@ -103,14 +108,27 @@ xdo_backspace() {
 
 	if is_integer "$win"; then
 		xdotool windowactivate --sync "$win" 2>/dev/null || true
-		xdotool key --window "$win" --clearmodifiers --repeat "$count" BackSpace 2>/dev/null || true
+		sleep 0.03
+		xdotool key --window "$win" --clearmodifiers --delay 20 --repeat "$count" BackSpace 2>/dev/null || true
 	else
-		xdotool key --clearmodifiers --repeat "$count" BackSpace 2>/dev/null || true
+		xdotool key --clearmodifiers --delay 20 --repeat "$count" BackSpace 2>/dev/null || true
 	fi
 }
 
 i3_available() {
 	command -v i3-nagbar >/dev/null 2>&1 && [[ -n "${DISPLAY:-}" ]]
+}
+
+i3msg_available() {
+	command -v i3-msg >/dev/null 2>&1 && [[ -n "${DISPLAY:-}" ]]
+}
+
+i3_mode() {
+	local mode
+	mode="$1"
+	if i3msg_available; then
+		i3-msg "mode \"$mode\"" >/dev/null 2>&1 || true
+	fi
 }
 
 nagbar_stop() {
@@ -153,7 +171,13 @@ start_recording() {
 	fi
 
 	save_active_window
-	nagbar_start "$STATUS_RECORD"
+	local win
+	win="$(get_target_window 2>/dev/null || true)"
+
+	# Give i3 time to finish the keypress event
+	# so the target app receives xdotool keystrokes.
+	sleep 0.05
+	xdo_type "$win" "$STATUS_RECORD"
 
 	rm -f "$AUDIO_FILE"
 
@@ -192,21 +216,97 @@ stop_recording_and_dictate() {
 
 	local win
 	win="$(get_target_window 2>/dev/null || true)"
+	xdo_backspace "$win" "${#STATUS_RECORD}"
 	xdo_type "$win" "$STATUS_TRANSCRIBE"
 
-	if [[ ! -s "$AUDIO_FILE" ]]; then
+	i3_mode "$DICTATE_MODE_NAME"
+	echo $$ >"$STOP_PID_FILE"
+
+	cleanup_common() {
 		nagbar_stop
-		rm -f "$WINDOW_FILE"
+		rm -f "$STOP_PID_FILE" "$TRANSCRIBE_PID_FILE" "$TRANSCRIBE_OUT_FILE" "$WINDOW_FILE"
+		i3_mode "default"
+	}
+
+	cleanup_with_placeholder() {
+		xdo_backspace "$win" "${#STATUS_TRANSCRIBE}"
+		cleanup_common
+	}
+
+	on_cancel() {
+		cleanup_with_placeholder
+		exit 130
+	}
+
+	trap on_cancel INT TERM HUP
+
+	if [[ ! -s "$AUDIO_FILE" ]]; then
+		cleanup_with_placeholder
 		exit 1
 	fi
 
-	TEXT="$(whisper-cpp -m "$MODEL_PATH" -f "$AUDIO_FILE" -nt)"
+	# Run whisper in the background so it can be cancelled.
+	: >"$TRANSCRIBE_OUT_FILE"
+	whisper-cpp -m "$MODEL_PATH" -f "$AUDIO_FILE" -nt >"$TRANSCRIBE_OUT_FILE" 2>/dev/null &
+	local whisper_pid
+	whisper_pid=$!
+	echo "$whisper_pid" >"$TRANSCRIBE_PID_FILE"
+
+	if ! wait "$whisper_pid"; then
+		cleanup_with_placeholder
+		exit 130
+	fi
+
+	if [[ ! -f "$TRANSCRIBE_OUT_FILE" ]]; then
+		cleanup_with_placeholder
+		exit 130
+	fi
+
+	TEXT="$(<"$TRANSCRIBE_OUT_FILE")"
+
+	# Whisper is done; stop capturing Delete/Escape so you can't accidentally
+	# cancel mid-typing and leave partial output.
+	rm -f "$STOP_PID_FILE" "$TRANSCRIBE_PID_FILE" 2>/dev/null || true
+	i3_mode "default"
+	trap - INT TERM HUP
 
 	xdo_backspace "$win" "${#STATUS_TRANSCRIBE}"
 	xdo_type "$win" "$TEXT"
 
+	cleanup_common
+}
+
+cancel_transcription() {
+	local stop_pid whisper_pid
+	stop_pid=""
+	whisper_pid=""
+
+	if [[ -f "$STOP_PID_FILE" ]]; then
+		stop_pid="$(cat "$STOP_PID_FILE" 2>/dev/null || true)"
+	fi
+	if [[ -f "$TRANSCRIBE_PID_FILE" ]]; then
+		whisper_pid="$(cat "$TRANSCRIBE_PID_FILE" 2>/dev/null || true)"
+	fi
+
+	# Prefer killing the main stop/transcribe script so its trap cleans up UI.
+	if is_integer "$stop_pid" && is_running "$stop_pid"; then
+		kill -TERM "$stop_pid" 2>/dev/null || true
+		return 0
+	fi
+
+	# Fallback: kill whisper directly and attempt cleanup.
+	if is_integer "$whisper_pid" && is_running "$whisper_pid"; then
+		kill -TERM "$whisper_pid" 2>/dev/null || true
+	fi
+
+	local win
+	win="$(get_target_window 2>/dev/null || true)"
+	xdo_backspace "$win" "${#STATUS_TRANSCRIBE}"
+
 	nagbar_stop
-	rm -f "$WINDOW_FILE"
+	RM_FILES=("$STOP_PID_FILE" "$TRANSCRIBE_PID_FILE" "$TRANSCRIBE_OUT_FILE" "$WINDOW_FILE")
+	rm -f "${RM_FILES[@]}" 2>/dev/null || true
+	i3_mode "default"
 }
 
 cmd="${1:-}"
@@ -216,6 +316,9 @@ case "$cmd" in
 		;;
 	stop)
 		stop_recording_and_dictate
+		;;
+	cancel)
+		cancel_transcription
 		;;
 	*)
 		usage
