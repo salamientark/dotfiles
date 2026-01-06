@@ -25,6 +25,12 @@ exec --no-startup-id nm-applet
 
 ### KEYBINDINGS ###
 
+# Launch whisper push-to-talk (F12)
+# Press: start recording. Release: stop + transcribe + type.
+bindcode 96 exec --no-startup-id $I3_SCRIPTS_DIR/dictate.sh start
+bindcode --release 96 exec --no-startup-id $I3_SCRIPTS_DIR/dictate.sh stop
+
+
 # Lock session (p key)
 bindcode $mod+Shift+33 exec --no-startup-id i3lock -i ~/.i3/glitch-art-hexagonal-pattern-illusion.png
 
@@ -186,24 +192,6 @@ client.focused          $bgcolor    $bgcolor    $text    $indicator
 client.unfocused        $in-bgcolor $in-bgcolor $in-text $in-bgcolor
 client.focused_inactive $in-bgcolor $in-bgcolor $in-text $in-bgcolor
 client.urgent           $u-bgcolor  $u-bgcolor  $text    $u-bgcolor
-
-### BAR ###
-
-# i3bar disabled - using Polybar instead
-# bar {
-# 	status_command i3blocks -c $I3BLOCKS_CONFIG_DIR/i3blocks.conf
-# 	font pango:MesloLGS NF 11
-# 	i3bar_command i3bar --transparency
-# 	tray_output none
-# 	
-# 	colors {
-# 		background         $bar-color
-# 		separator          #191919
-# 		focused_workspace  $bgcolor    $bgcolor    $text
-# 		inactive_workspace $in-bgcolor $in-bgcolor $text
-# 		urgent_workspace   $u-bgcolor  $u-bgcolor  $text
-# 	}
-# }
 
 ### APPLICATION ASSIGNMENTS ###
 
